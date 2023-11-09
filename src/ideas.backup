@@ -1,0 +1,135 @@
+<div>
+  <label>
+    <p>Fill</p>
+    <input type="checkbox" name="fill" />
+    <div>
+      <label>
+        <input
+          type="color"
+          name="fill_color"
+          placeholder="#FFFFFF"
+          disabled
+        />
+      </label>
+      <label>
+        <input
+          type="number"
+          name="fill_opacity"
+          placeholder="100%"
+          value="100"
+          min="0"
+          max="100"
+          step="0.01"
+          disabled
+        />
+      </label>
+    </div>
+  </label>
+</div>
+
+///////
+
+
+                <tr style={styleTr}>
+                  {item1.columns.map((item2, index2) => {
+                    function Children() {
+                      return item1.icon && item1.icon_circled ? (
+                        <div
+                          style={{
+                            backgroundColor: "red",
+                            padding:
+                              (arrFontSize[item1.idx_font_size].line_height * 1.5 -
+                                arrFontSize[item1.idx_font_size].line_height) /
+                                2 +
+                              "px",
+                            display: "inline-block",
+                            borderRadius: "50%",
+                          }}>
+                          <Icon
+                            icon={item2.icon}
+                            size={arrFontSize[item1.idx_font_size].line_height}
+                            color="#fff"
+                            style={{
+                              display: "inline-block",
+                            }}
+                          />
+                        </div>
+                      ) : item1.icon ? (
+                        <Icon
+                          icon={item2.icon}
+                          size={
+                            arrFontSize[item1.idx_font_size].line_height +
+                            arrFontSize[item1.idx_font_size].line_height / 4
+                          }
+                          style={{
+                            display: "inline-block",
+                          }}
+                        />
+                      ) : (
+                        item2.text && (
+                          <p
+                            style={{
+                              width: "100%",
+                              display: "inline-block",
+                              fontSize: arrFontSize[item1.idx_font_size].font_size + "px",
+                              lineHeight: arrFontSize[item1.idx_font_size].line_height + "px",
+                              textOverflow: "ellipsis",
+                              verticalAlign: "middle",
+                              overflow: "hidden",
+                            }}>
+                            {item2.text}
+                          </p>
+                        )
+                      )
+                    }
+                    return (
+                      <td
+                        key={item2.id}
+                        style={{
+                          ...styleTd,
+                          fontSize: 0,
+                          lineHeight: 0,
+                          textAlign: item1.icon
+                            ? item1.columns.length > 1 && index2 === 0
+                              ? "right"
+                              : item1.columns.length > 1 && index2 === item1.columns.length - 1
+                              ? "left"
+                              : "center"
+                            : "center",
+                        }}
+                        {...(item1.icon && {
+                          colSpan:
+                            item1.columns.length === 1
+                              ? 10
+                              : item1.columns.length === 2
+                              ? 5
+                              : index2 === 0 || index2 === item1.columns.length - 1
+                              ? (10 - (item1.columns.length - 2)) / 2
+                              : 1,
+                        })}>
+                        {item2.url ? (
+                          <a
+                            href={item2.url}
+                            style={{
+                              minWidth: (600 - 16 * 2) / 10,
+                              maxWidth: (600 - 16 * 2) / (item1.icon ? 10 : item1.columns.length),
+                              display: "inline-block",
+                              textAlign: "center",
+                            }}>
+                            <Children />
+                          </a>
+                        ) : (
+                          <div
+                            style={{
+                              minWidth: (600 - 16 * 2) / 10,
+                              maxWidth: (600 - 16 * 2) / (item1.icon ? 10 : item1.columns.length),
+                              display: "inline-block",
+                              textAlign: "center",
+                            }}>
+                            <Children />
+                          </div>
+                        )}
+                      </td>
+                    )
+                  })}
+                </tr>
