@@ -346,7 +346,7 @@ function Letter({arrCounter}) {
                                   style={{
                                     padding: '6px',
                                     display: 'inline-block',
-                                    color: 'inherit',
+                                    color: 'rgba(0,0,0,.875)',
                                     textDecoration: 'none',
                                     verticalAlign: item1.columns_align_top ? 'top' : 'middle',
                                   }}>
