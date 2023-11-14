@@ -281,7 +281,7 @@ function Letter({arrCounter}) {
                                   //   }}
                                   // />
                                   <img
-                                    src={window.location.origin + '/icons/white/' + item2.icon + '.png'}
+                                    src={window.location.origin + '/icons/white/' + item2.icon + '.svg'}
                                     style={{
                                       width: arrFontSize[item1.idx_font_size].line_height + 'px',
                                       height: arrFontSize[item1.idx_font_size].line_height + 'px',
@@ -304,7 +304,7 @@ function Letter({arrCounter}) {
                               //   }}
                               // />
                               <img
-                                src={window.location.origin + '/icons/gray/' + item2.icon + '.png'}
+                                src={window.location.origin + '/icons/gray/' + item2.icon + '.svg'}
                                 style={{
                                   width:
                                     arrFontSize[item1.idx_font_size].line_height +
@@ -346,6 +346,8 @@ function Letter({arrCounter}) {
                                   style={{
                                     padding: '6px',
                                     display: 'inline-block',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
                                     verticalAlign: item1.columns_align_top ? 'top' : 'middle',
                                   }}>
                                   {item1.icon && <Children />}
