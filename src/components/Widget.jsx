@@ -1,7 +1,7 @@
-import React, {useState} from "react"
-import Icon from "./Icon"
-import Button from "./Button"
-import Field from "./Field"
+import React, {useState} from 'react'
+import Icon from './Icon'
+import Button from './Button'
+import Field from './Field'
 
 function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
   const [expanded, setExpanded] = useState(true)
@@ -11,7 +11,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
       <div className="widget_header">
         <div>
           <Button onClick={() => setExpanded(!expanded)}>
-            <Icon icon={expanded ? "less" : "more"} />
+            <Icon icon={expanded ? 'less' : 'more'} />
           </Button>
           <p>#form{widget.id}</p>
         </div>
@@ -21,7 +21,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               onClick={() => {
                 const idx = arrCounter.findIndex((item) => item.id === widget.id)
                 if (idx > 0) {
-                  setArrCounter([...moveArrItem(arrCounter, idx, "backward")])
+                  setArrCounter([...moveArrItem(arrCounter, idx, 'backward')])
                 }
               }}>
               <Icon icon="up" />
@@ -32,7 +32,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               onClick={() => {
                 const idx = arrCounter.findIndex((item) => item.id === widget.id)
                 if (idx > -1 && idx < arrCounter.length - 1) {
-                  setArrCounter([...moveArrItem(arrCounter, idx, "forward")])
+                  setArrCounter([...moveArrItem(arrCounter, idx, 'forward')])
                 }
               }}>
               <Icon icon="down" />
@@ -144,7 +144,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               min={0}
               max={12}
               onChange={(e) => {
-                const val = parseInt(e.target.value || "0")
+                const val = parseInt(e.target.value || '0')
                 if (val !== widget.columns.length && val >= 0 && val <= 12) {
                   setArrCounter(
                     arrCounter.map((item) => {
@@ -342,13 +342,13 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 name="columns_align_x"
-                checked={widget.columns_align_x === "left"}
+                checked={widget.columns_align_x === 'left'}
                 onChange={() =>
                   setArrCounter(
                     arrCounter.map((item) =>
                       item.id !== widget.id
                         ? item
-                        : {...item, columns_align_x: item.columns_align_x !== "left" ? "left" : "center"}
+                        : {...item, columns_align_x: item.columns_align_x !== 'left' ? 'left' : 'center'}
                     )
                   )
                 }>
@@ -357,7 +357,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 name="columns_align_x"
-                checked={widget.columns_align_x === "right"}
+                checked={widget.columns_align_x === 'right'}
                 onChange={() =>
                   setArrCounter(
                     arrCounter.map((item) =>
@@ -365,7 +365,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                         ? item
                         : {
                             ...item,
-                            columns_align_x: item.columns_align_x !== "right" ? "right" : "center",
+                            columns_align_x: item.columns_align_x !== 'right' ? 'right' : 'center',
                           }
                     )
                   )
@@ -506,45 +506,45 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
 }
 
 const arrFontSize = [
-  {font_size: 12, line_height: 16, name: "XS"},
-  {font_size: 14, line_height: 20, name: "S"},
-  {font_size: 16, line_height: 24, name: "M"},
-  {font_size: 18, line_height: 28, name: "L"},
-  {font_size: 20, line_height: 28, name: "LG"},
-  {font_size: 24, line_height: 32, name: "XL"},
+  {font_size: 12, line_height: 16, name: 'XS'},
+  {font_size: 14, line_height: 20, name: 'S'},
+  {font_size: 16, line_height: 24, name: 'M'},
+  {font_size: 18, line_height: 28, name: 'L'},
+  {font_size: 20, line_height: 28, name: 'LG'},
+  {font_size: 24, line_height: 32, name: 'XL'},
 ]
 
 const objIconSocial = {
-  appstore: "App Store",
-  behance: "Behance",
-  email: "Email",
-  github: "GitHub",
-  instagram: "Instagram",
-  linkedin: "LinkedIn",
-  medium: "Medium",
-  patreon: "patreon",
-  playstore: "Play Store",
-  spotify: "Spotify",
-  steam: "Steam",
-  twitter: "Twitter",
-  website: "Website",
-  whatsapp: "WhatsApp",
-  youtube: "YouTube",
+  appstore: 'App Store',
+  behance: 'Behance',
+  email: 'Email',
+  github: 'GitHub',
+  instagram: 'Instagram',
+  linkedin: 'LinkedIn',
+  medium: 'Medium',
+  patreon: 'Patreon',
+  playstore: 'Play Store',
+  spotify: 'Spotify',
+  steam: 'Steam',
+  twitter: 'Twitter',
+  website: 'Website',
+  whatsapp: 'WhatsApp',
+  youtube: 'YouTube',
 }
 
 const objColumn = {
   id: 1,
   icon: Object.keys(objIconSocial)[1],
   text: objIconSocial[Object.keys(objIconSocial)[1]],
-  url: "https://localhost",
+  url: 'https://localhost',
   columns_align_top: false,
   columns_break: false,
 }
 
 function moveArrItem(arr, idx, type) {
   const temp = arr[idx]
-  arr[idx] = arr[type === "forward" ? idx + 1 : idx - 1]
-  arr[type === "forward" ? idx + 1 : idx - 1] = temp
+  arr[idx] = arr[type === 'forward' ? idx + 1 : idx - 1]
+  arr[type === 'forward' ? idx + 1 : idx - 1] = temp
   return arr
 }
 
