@@ -3,9 +3,11 @@ function Field({
   type,
   name,
   placeholder,
+  defaultValue,
   value,
   checked,
   onChange,
+  onBlur,
   min,
   max,
   rows = 1,
@@ -17,6 +19,8 @@ function Field({
   const attr = {
     name: name,
     onChange: onChange,
+    onBlur: onBlur,
+    defaultValue: defaultValue,
     value: value,
     disabled: disabled,
     required: required,
@@ -24,7 +28,7 @@ function Field({
   return (
     <label>
       {label && <p>{label}</p>}
-      {type === "select" ? (
+      {type === 'select' ? (
         <select {...attr}>
           {Object.keys(selectOption).map((item) => (
             <option key={item} value={item}>
@@ -32,7 +36,7 @@ function Field({
             </option>
           ))}
         </select>
-      ) : type === "textarea" ? (
+      ) : type === 'textarea' ? (
         <textarea placeholder={placeholder} spellCheck="false" autoComplete="off" rows={rows} {...attr}></textarea>
       ) : (
         <input

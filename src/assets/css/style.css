@@ -110,7 +110,34 @@ textarea {
   &:is(textarea) {
     min-height: 30px;
   }
-  &:is([type="number"]) {
+  &:is([type='color']) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    overflow: hidden;
+    &::-webkit-color-swatch {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: none;
+    }
+    &::-moz-color-swatch {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: none;
+    }
+  }
+  &:is([type='number']) {
     appearance: textfield;
     -moz-appearance: textfield;
     &::-webkit-outer-spin-button,
@@ -119,7 +146,7 @@ textarea {
       margin: 0;
     }
   }
-  &:is([type="checkbox"]) {
+  &:is([type='checkbox']) {
     appearance: none;
     width: 24px;
     height: 24px;
@@ -127,7 +154,7 @@ textarea {
     position: relative;
     &:checked {
       &::after {
-        content: "✔";
+        content: '✔';
         background-color: red;
         width: calc(100% + 2px);
         height: calc(100% + 2px);
@@ -165,21 +192,29 @@ textarea {
   }
 }
 
+input[type='color']:disabled::-webkit-color-swatch {
+  display: none;
+}
+
+input[type='color']:disabled::-moz-color-swatch {
+  display: none;
+}
+
 label {
   display: flex;
   gap: 8px;
   position: relative;
-  &:has(> [type="checkbox"]) {
+  &:has(> [type='checkbox']) {
     align-items: center;
     & > p {
       order: 1;
     }
     &:has(> svg) {
-      & > [type="checkbox"] {
+      & > [type='checkbox'] {
         width: 30px;
         height: 30px;
         &:checked:after {
-          content: "";
+          content: '';
         }
       }
       & > svg {
@@ -193,20 +228,20 @@ label {
         z-index: 1;
       }
     }
-    &:hover > [type="checkbox"] {
+    &:hover > [type='checkbox'] {
       background-color: rgba(0, 0, 0, 0.1);
     }
   }
-  &:not(:has(> [type="checkbox"])) {
+  &:not(:has(> [type='checkbox'])) {
     flex-direction: column;
   }
-  &:has(> [type="checkbox"]:not(:disabled)) {
+  &:has(> [type='checkbox']:not(:disabled)) {
     cursor: pointer;
-    & > [type="checkbox"] {
+    & > [type='checkbox'] {
       cursor: pointer;
     }
   }
-  &:has(> [type="checkbox"]:not(:disabled):checked):has(svg) > svg {
+  &:has(> [type='checkbox']:not(:disabled):checked):has(svg) > svg {
     fill: #fff;
   }
   &:has(> .field_group) {
@@ -224,9 +259,6 @@ label {
       border-right-width: 0;
       border-radius: 0;
     }
-    /* & > input:not([type="number"]):disabled {
-      background-color: #fff;
-    } */
     & > .field_group {
       width: 96px;
       margin-left: calc(-96px + -8px);
@@ -243,12 +275,11 @@ fieldset {
   flex-direction: column;
   & div:not(.field_group) {
     display: flex;
-    /* flex-direction: row; */
     column-gap: 12px;
-    & > label:has(> [type="checkbox"]) {
+    & > label:has(> [type='checkbox']) {
       min-height: 30px;
     }
-    & > label:not(:has(> [type="checkbox"])):not(:has(.field_group)):first-child {
+    & > label:not(:has(> [type='checkbox'])):not(:has(.field_group)):first-child {
       flex-grow: 1;
     }
   }
@@ -261,7 +292,7 @@ fieldset {
   & > label:not(:last-child) > input,
   & > label:not(:last-child) > select,
   & > label:not(:last-child) > textarea,
-  & > label:not(:last-child) > [type="checkbox"]:after {
+  & > label:not(:last-child) > [type='checkbox']:after {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -275,7 +306,7 @@ fieldset {
   & > label:not(:first-child) > input,
   & > label:not(:first-child) > select,
   & > label:not(:first-child) > textarea,
-  & > label:not(:first-child) > [type="checkbox"]:after {
+  & > label:not(:first-child) > [type='checkbox']:after {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
@@ -325,9 +356,6 @@ fieldset {
       }
     }
   }
-  // & > * {
-  //   flex-grow: 1;
-  // }
 }
 
 .widget_body,
@@ -357,62 +385,3 @@ fieldset {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
-
-/*  */
-
-// main {
-//   & > div {
-//     box-sizing: border-box;
-//     border-width: 0;
-//     display: block;
-//     background-color: rgba(0, 0, 0, 0.1);
-//     padding: 16px;
-//     color: #000;
-//     font-size: 16px;
-//     line-height: 24px;
-//     font-family: sans-serif;
-//     & > div {
-//       box-sizing: border-box;
-//       border-width: 0;
-//       display: block;
-//       background-color: #fff;
-//       width: 600px;
-//       margin: 0 auto;
-//       & > div {
-//         box-sizing: border-box;
-//         border-width: 0;
-//         display: block;
-//         padding: 16px;
-//         text-align: center;
-//       }
-//     }
-//   }
-// }
-// table {
-//   box-sizing: border-box;
-//   border-width: 0;
-//   display: table;
-//   text-indent: 0;
-//   border-collapse: collapse;
-//   border-spacing: 0;
-//   width: 100%;
-//   table-layout: fixed;
-//   & > tbody {
-//     box-sizing: border-box;
-//     border-width: 0;
-//     display: table-row-group;
-//     vertical-align: middle;
-//     & > tr {
-//       box-sizing: border-box;
-//       border-width: 0;
-//       display: table-row;
-//       vertical-align: middle;
-//       & > td {
-//         box-sizing: border-box;
-//         border-width: 0;
-//         display: table-cell;
-//         vertical-align: middle;
-//       }
-//     }
-//   }
-// }
