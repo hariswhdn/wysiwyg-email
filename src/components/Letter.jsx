@@ -154,26 +154,27 @@ function Letter({arrCounter}) {
                                   style={{
                                     width: arrFontSize[item1.idx_font_size].line_height,
                                     display: 'inline-block',
-                                    color: item1.dark_mode ? '#EEEEEE' : '#202020',
-                                    fontSize: item1.icon_circled
-                                      ? arrFontSize[
-                                          item1.idx_font_size > 1 ? item1.idx_font_size - 1 : item1.idx_font_size
-                                        ].line_height
-                                      : arrFontSize[item1.idx_font_size].font_size,
+                                    color: item1.icon_order_color,
+                                    fontSize:
+                                      item1.icon_circled || item1.icon_circled_border
+                                        ? arrFontSize[
+                                            item1.idx_font_size > 1 ? item1.idx_font_size - 1 : item1.idx_font_size
+                                          ].line_height
+                                        : arrFontSize[item1.idx_font_size].font_size,
                                     lineHeight: arrFontSize[item1.idx_font_size].line_height + 'px',
                                     fontWeight: 'bold',
                                     fontStyle: 'normal',
                                     verticalAlign: item2.columns_align_top ? 'top' : styleTd.verticalAlign,
                                     overflow: 'hidden',
                                   }}>
-                                  {index2 + 1 + (!item1.icon_circled && '.')}
+                                  {index2 + 1 + (!item1.icon_circled && !item1.icon_circled_border && '.')}
                                 </p>
                               )
                             }
-                            return item1.icon_circled ? (
+                            return item1.icon_circled || item1.icon_circled_border ? (
                               <div
                                 style={{
-                                  backgroundColor: item1.icon_circled_color,
+                                  backgroundColor: item1.icon_circled ? item1.icon_circled_color : 'transparent',
                                   margin:
                                     '0 ' + Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                   padding:
@@ -183,6 +184,9 @@ function Letter({arrCounter}) {
                                     'px',
                                   display: 'inline-block',
                                   textAlign: 'center',
+                                  border: item1.icon_circled_border
+                                    ? '1px solid ' + item1.icon_circled_border_color
+                                    : 'none',
                                   borderRadius: '50%',
                                   verticalAlign: item2.columns_align_top ? 'top' : styleTd.verticalAlign,
                                 }}>
@@ -263,7 +267,9 @@ function Letter({arrCounter}) {
                                 style={{
                                   color: item1.columns_color,
                                   margin:
-                                    item1.columns_break && item1.icon && !(item1.icon_order && !item1.icon_circled)
+                                    item1.columns_break &&
+                                    item1.icon &&
+                                    !(item1.icon_order && !item1.icon_circled && !item1.icon_circled_border)
                                       ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) +
                                         'px ' +
                                         (Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px ') +
@@ -286,9 +292,21 @@ function Letter({arrCounter}) {
                                 <a
                                   href={item2.url}
                                   style={{
+                                    backgroundColor: item1.icon_boxed ? item1.icon_boxed_color : 'transparent',
+                                    margin:
+                                      item1.icon_boxed || item1.icon_boxed_border
+                                        ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px'
+                                        : 0,
                                     padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
                                     textDecoration: 'none',
+                                    border: item1.icon_boxed_border
+                                      ? '1px solid ' + item1.icon_boxed_border_color
+                                      : 'none',
+                                    borderRadius:
+                                      item1.icon_boxed || item1.icon_boxed_border
+                                        ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px'
+                                        : 'none',
                                     verticalAlign: item1.columns_align_top ? 'top' : 'middle',
                                   }}>
                                   {item1.icon && <Children />}
@@ -297,8 +315,20 @@ function Letter({arrCounter}) {
                               ) : (
                                 <div
                                   style={{
+                                    backgroundColor: item1.icon_boxed ? item1.icon_boxed_color : 'transparent',
+                                    margin:
+                                      item1.icon_boxed || item1.icon_boxed_border
+                                        ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px'
+                                        : 0,
                                     padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
+                                    border: item1.icon_boxed_border
+                                      ? '1px solid ' + item1.icon_boxed_border_color
+                                      : 'none',
+                                    borderRadius:
+                                      item1.icon_boxed || item1.icon_boxed_border
+                                        ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px'
+                                        : 'none',
                                     verticalAlign: item1.columns_align_top ? 'top' : 'middle',
                                   }}>
                                   {item1.icon && <Children />}
