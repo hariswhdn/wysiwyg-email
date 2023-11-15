@@ -10,8 +10,8 @@ function Letter({arrCounter}) {
     backgroundColor: '#E8E8E8',
     padding: '16px',
     color: '#202020',
-    fontSize: '16px',
-    lineHeight: '24px',
+    fontSize: '14px',
+    lineHeight: '20px',
     fontFamily: 'sans-serif',
   }
   const styleTableContainer = {
@@ -26,7 +26,6 @@ function Letter({arrCounter}) {
     boxSizing: 'border-box',
     borderWidth: '0',
     display: 'block',
-    padding: '24px 16px',
     textAlign: 'center',
   }
   const styleTable = {
@@ -68,20 +67,34 @@ function Letter({arrCounter}) {
                 ...styleTableWrap,
                 backgroundColor: item1.background_color,
                 padding:
-                  (item1.title.length > 0 || item1.description.length > 0) && item1.columns.length > 0
-                    ? '20px 16px 18px'
-                    : (item1.title.length > 0 || item1.description.length > 0) && item1.columns.length === 0
-                    ? '20px 16px'
-                    : item1.title.length === 0 && item1.description.length === 0 && item1.columns.length > 0
-                    ? '24px 16px 18px'
-                    : item1.title.length === 0 && item1.description.length === 0 && item1.columns.length === 0
-                    ? 0
-                    : styleTableWrap.padding,
+                  item1.title.length > 0 || item1.description.length > 0 || item1.columns.length > 0
+                    ? arrFontSize[item1.idx_font_size + 1].line_height +
+                      'px ' +
+                      arrFontSize[item1.idx_font_size + 1].font_size +
+                      'px'
+                    : 0,
+                // padding:
+                //   (item1.title.length > 0 || item1.description.length > 0) && item1.columns.length > 0
+                //     ? '20px 16px 18px'
+                //     : (item1.title.length > 0 || item1.description.length > 0) && item1.columns.length === 0
+                //     ? '20px 16px'
+                //     : item1.title.length === 0 &&
+                //       item1.description.length === 0 &&
+                //       item1.columns.length > 0 ** item1.icon
+                //     ? '20px 16px'
+                //     : item1.title.length === 0 && item1.description.length === 0 && item1.columns.length === 0
+                //     ? '24px 16px 18px'
+                //     : item1.title.length === 0 && item1.description.length === 0 && item1.columns.length === 0
+                //     ? 0
+                //     : styleTableWrap.padding,
               }}>
               {item1.title && (
                 <p
                   style={{
-                    margin: 0,
+                    margin:
+                      '0 0 ' +
+                      (item1.description ? Math.ceil(arrFontSize[item1.idx_font_size + 1].line_height / 4) : 0) +
+                      'px',
                     color: item1.title_color,
                     fontSize: arrFontSize[item1.idx_font_size + 1].font_size,
                     lineHeight: arrFontSize[item1.idx_font_size + 1].line_height + 'px',
@@ -95,8 +108,11 @@ function Letter({arrCounter}) {
                   style={{
                     margin: 0,
                     color: item1.description_color,
-                    fontSize: arrFontSize[item1.idx_font_size - 1].font_size,
-                    lineHeight: arrFontSize[item1.idx_font_size - 1].line_height + 'px',
+                    fontSize:
+                      arrFontSize[item1.idx_font_size > 0 ? item1.idx_font_size - 1 : item1.idx_font_size].font_size,
+                    lineHeight:
+                      arrFontSize[item1.idx_font_size > 0 ? item1.idx_font_size - 1 : item1.idx_font_size].line_height +
+                      'px',
                     fontWeight: item1.description_bold ? 700 : 400,
                     fontStyle: item1.description_italic ? 'italic' : 'normal',
                   }}
@@ -109,7 +125,10 @@ function Letter({arrCounter}) {
                 cellSpacing="0"
                 style={{
                   ...styleTable,
-                  marginTop: (item1.title !== '' || item1.description !== '') && item1.columns.length > 0 ? '14px' : '',
+                  marginTop:
+                    (item1.title !== '' || item1.description !== '') && item1.columns.length > 0
+                      ? arrFontSize[item1.idx_font_size].font_size + 'px'
+                      : '',
                   fontWeight: item1.columns_bold ? 700 : 400,
                   fontStyle: item1.columns_italic ? 'italic' : 'normal',
                 }}>
@@ -137,7 +156,9 @@ function Letter({arrCounter}) {
                                     display: 'inline-block',
                                     color: item1.dark_mode ? '#EEEEEE' : '#202020',
                                     fontSize: item1.icon_circled
-                                      ? arrFontSize[item1.idx_font_size - 1].line_height
+                                      ? arrFontSize[
+                                          item1.idx_font_size > 1 ? item1.idx_font_size - 1 : item1.idx_font_size
+                                        ].line_height
                                       : arrFontSize[item1.idx_font_size].font_size,
                                     lineHeight: arrFontSize[item1.idx_font_size].line_height + 'px',
                                     fontWeight: 'bold',
@@ -153,10 +174,11 @@ function Letter({arrCounter}) {
                               <div
                                 style={{
                                   backgroundColor: item1.icon_circled_color,
-                                  margin: '0 6px',
+                                  margin:
+                                    '0 ' + Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                   padding:
-                                    (arrFontSize[item1.idx_font_size].line_height * 1.5 -
-                                      arrFontSize[item1.idx_font_size].line_height) /
+                                    (arrFontSize[item1.idx_font_size + 1].line_height * 1.5 -
+                                      arrFontSize[item1.idx_font_size + 1].line_height) /
                                       2 +
                                     'px',
                                   display: 'inline-block',
@@ -185,10 +207,11 @@ function Letter({arrCounter}) {
                                       '.png'
                                     }
                                     style={{
-                                      width: arrFontSize[item1.idx_font_size].line_height + 'px',
-                                      height: arrFontSize[item1.idx_font_size].line_height + 'px',
+                                      width: arrFontSize[item1.idx_font_size + 1].line_height + 'px',
+                                      height: arrFontSize[item1.idx_font_size + 1].line_height + 'px',
                                       display: 'inline-block',
                                     }}
+                                    alt={item2.icon}
                                   />
                                 )}
                               </div>
@@ -218,17 +241,19 @@ function Letter({arrCounter}) {
                                 }
                                 style={{
                                   width:
-                                    arrFontSize[item1.idx_font_size].line_height +
-                                    arrFontSize[item1.idx_font_size].line_height / 4 +
+                                    arrFontSize[item1.idx_font_size + 1].line_height +
+                                    arrFontSize[item1.idx_font_size + 1].line_height / 4 +
                                     'px',
                                   height:
-                                    arrFontSize[item1.idx_font_size].line_height +
-                                    arrFontSize[item1.idx_font_size].line_height / 4 +
+                                    arrFontSize[item1.idx_font_size + 1].line_height +
+                                    arrFontSize[item1.idx_font_size + 1].line_height / 4 +
                                     'px',
-                                  margin: '0 6px',
+                                  margin:
+                                    '0 ' + Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                   display: 'inline-block',
                                   verticalAlign: item2.columns_align_top ? 'top' : styleTd.verticalAlign,
                                 }}
+                                alt={item2.icon}
                               />
                             )
                           }
@@ -238,9 +263,12 @@ function Letter({arrCounter}) {
                                 style={{
                                   color: item1.columns_color,
                                   margin:
-                                    item1.columns_break && !(item1.icon_order && !item1.icon_circled)
-                                      ? '6px 6px 0'
-                                      : '0 6px',
+                                    item1.columns_break && item1.icon && !(item1.icon_order && !item1.icon_circled)
+                                      ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) +
+                                        'px ' +
+                                        (Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px ') +
+                                        '0'
+                                      : '0 ' + Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                   display: item1.columns_break ? 'block' : 'inline-block',
                                   fontSize: arrFontSize[item1.idx_font_size].font_size + 'px',
                                   lineHeight: arrFontSize[item1.idx_font_size].line_height + 'px',
@@ -258,7 +286,7 @@ function Letter({arrCounter}) {
                                 <a
                                   href={item2.url}
                                   style={{
-                                    padding: '6px',
+                                    padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
                                     textDecoration: 'none',
                                     verticalAlign: item1.columns_align_top ? 'top' : 'middle',
@@ -269,7 +297,7 @@ function Letter({arrCounter}) {
                               ) : (
                                 <div
                                   style={{
-                                    padding: '6px',
+                                    padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
                                     verticalAlign: item1.columns_align_top ? 'top' : 'middle',
                                   }}>

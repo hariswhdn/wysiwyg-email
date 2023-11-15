@@ -166,7 +166,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               disabled={true}>
               <Button
                 onClick={() =>
-                  widget.idx_font_size > 1 &&
+                  widget.idx_font_size > 0 &&
                   setArrCounter(
                     arrCounter.map((item) =>
                       item.id !== widget.id
@@ -179,7 +179,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   )
                 }
                 disabled={
-                  widget.idx_font_size === 1 ||
+                  widget.idx_font_size === 0 ||
                   (widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0)
                 }>
                 <Icon icon="subtract" />
@@ -581,12 +581,12 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
 }
 
 const arrFontSize = [
-  {font_size: 12, line_height: 16, name: 'XS'},
-  {font_size: 14, line_height: 20, name: 'S'},
-  {font_size: 16, line_height: 24, name: 'M'},
-  {font_size: 18, line_height: 28, name: 'L'},
-  {font_size: 20, line_height: 28, name: 'LG'},
-  {font_size: 24, line_height: 32, name: 'XL'},
+  {font_size: 12, line_height: 16, name: 'S'},
+  {font_size: 14, line_height: 20, name: 'M'},
+  {font_size: 16, line_height: 24, name: 'L'},
+  {font_size: 18, line_height: 28, name: 'LG'},
+  {font_size: 20, line_height: 28, name: 'XL'},
+  {font_size: 24, line_height: 32, name: 'XXL'},
 ]
 
 const objIconSocial = {

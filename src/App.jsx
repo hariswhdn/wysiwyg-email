@@ -59,7 +59,7 @@ const objWidget = {
   description_bold: false,
   description_italic: false,
   description_color: '#646464',
-  idx_font_size: 2,
+  idx_font_size: 1,
   icon: true,
   icon_order: false,
   icon_circled: true,
