@@ -52,7 +52,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
       </div>
       {expanded && (
         <fieldset className="widget_body">
-          <div>
+          <div className="field_group">
             <Field
               type="textarea"
               placeholder="Heading"
@@ -63,43 +63,41 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 )
               }
             />
-            <div className="field_group">
-              <Field
-                type="checkbox"
-                disabled={widget.title.length === 0}
-                checked={widget.title_bold}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_bold: e.target.checked}))
-                  )
-                }>
-                <Icon icon="bold" />
-              </Field>
-              <Field
-                type="checkbox"
-                disabled={widget.title.length === 0}
-                checked={widget.title_italic}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_italic: e.target.checked}))
-                  )
-                }>
-                <Icon icon="italic" />
-              </Field>
-              <Field
-                type="color"
-                name="title_color"
-                defaultValue={widget.title_color}
-                disabled={widget.title.length === 0}
-                onBlur={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_color: e.target.value}))
-                  )
-                }
-              />
-            </div>
+            <Field
+              type="checkbox"
+              disabled={widget.title.length === 0}
+              checked={widget.title_bold}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_bold: e.target.checked}))
+                )
+              }>
+              <Icon icon="bold" />
+            </Field>
+            <Field
+              type="checkbox"
+              disabled={widget.title.length === 0}
+              checked={widget.title_italic}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_italic: e.target.checked}))
+                )
+              }>
+              <Icon icon="italic" />
+            </Field>
+            <Field
+              type="color"
+              name="title_color"
+              defaultValue={widget.title_color}
+              disabled={widget.title.length === 0}
+              onBlur={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_color: e.target.value}))
+                )
+              }
+            />
           </div>
-          <div>
+          <div className="field_group">
             <Field
               type="textarea"
               placeholder="Subheading"
@@ -110,47 +108,45 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 )
               }
             />
-            <div className="field_group">
-              <Field
-                type="checkbox"
-                disabled={widget.description.length === 0}
-                checked={widget.description_bold}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, description_bold: e.target.checked}
-                    )
+            <Field
+              type="checkbox"
+              disabled={widget.description.length === 0}
+              checked={widget.description_bold}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) =>
+                    item.id !== widget.id ? item : {...item, description_bold: e.target.checked}
                   )
-                }>
-                <Icon icon="bold" />
-              </Field>
-              <Field
-                type="checkbox"
-                disabled={widget.description.length === 0}
-                checked={widget.description_italic}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, description_italic: e.target.checked}
-                    )
+                )
+              }>
+              <Icon icon="bold" />
+            </Field>
+            <Field
+              type="checkbox"
+              disabled={widget.description.length === 0}
+              checked={widget.description_italic}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) =>
+                    item.id !== widget.id ? item : {...item, description_italic: e.target.checked}
                   )
-                }>
-                <Icon icon="italic" />
-              </Field>
-              <Field
-                type="color"
-                name="description_color"
-                defaultValue={widget.description_color}
-                disabled={widget.description.length === 0}
-                onBlur={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, description_color: e.target.value}
-                    )
+                )
+              }>
+              <Icon icon="italic" />
+            </Field>
+            <Field
+              type="color"
+              name="description_color"
+              defaultValue={widget.description_color}
+              disabled={widget.description.length === 0}
+              onBlur={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) =>
+                    item.id !== widget.id ? item : {...item, description_color: e.target.value}
                   )
-                }
-              />
-            </div>
+                )
+              }
+            />
           </div>
           <div>
             <Field
@@ -345,7 +341,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   )
                 }
                 disabled={widget.columns.length === 0}>
-                <Icon icon="align_left" />
+                <Icon icon="skip_left" />
               </Field>
               <Field
                 type="checkbox"
@@ -363,7 +359,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   )
                 }
                 disabled={widget.columns.length === 0}>
-                <Icon icon="align_right" />
+                <Icon icon="skip_right" />
               </Field>
             </div>
             <div className="field_group">
@@ -623,7 +619,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                       })
                     )
                   }>
-                  <Icon icon="align_top" />
+                  <Icon icon="skip_top" />
                 </Field>
               </div>
               <div className="field_group">
@@ -631,7 +627,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   type="select"
                   selectOption={objIconSocial}
                   value={item.icon}
-                  disabled={!widget.icon}
+                  disabled={!widget.icon || widget.icon_order}
                   required={true}
                   onChange={(e) =>
                     setArrCounter(

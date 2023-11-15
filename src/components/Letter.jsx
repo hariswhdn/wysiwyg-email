@@ -300,6 +300,7 @@ function Letter({arrCounter}) {
                                         : 0,
                                     padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
+                                    textAlign: 'center',
                                     textDecoration: 'none',
                                     border: item1.icon_boxed_border
                                       ? '1px solid ' + item1.icon_boxed_border_color
@@ -323,6 +324,7 @@ function Letter({arrCounter}) {
                                         : 0,
                                     padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
+                                    textAlign: 'center',
                                     border: item1.icon_boxed_border
                                       ? '1px solid ' + item1.icon_boxed_border_color
                                       : 'none',

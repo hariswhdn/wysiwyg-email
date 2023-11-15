@@ -316,6 +316,12 @@ fieldset {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
   }
+  &:has(> label > textarea) {
+    align-items: flex-start;
+  }
+  &:has(> label > textarea) > label:has(> textarea) {
+    width: 100%;
+  }
 }
 
 .widget {
@@ -353,6 +359,7 @@ fieldset {
     }
   }
   & > .field_group:nth-child(2) {
+    margin-top: -1px;
     & > label {
       &:first-child {
         flex-basis: 37.5%;
@@ -377,7 +384,6 @@ fieldset {
 .widget_columns > div > label:not(:first-child) > input,
 .widget_columns > div > label:not(:first-child) > select,
 .widget_columns > div > label:not(:first-child) > textarea {
-  border-top-width: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
