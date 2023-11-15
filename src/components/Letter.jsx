@@ -153,6 +153,7 @@ function Letter({arrCounter}) {
                                 <p
                                   style={{
                                     width: arrFontSize[item1.idx_font_size].line_height,
+                                    margin: 0,
                                     display: 'inline-block',
                                     color: item1.icon_order_color,
                                     fontSize:
