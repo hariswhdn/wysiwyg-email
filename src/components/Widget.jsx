@@ -19,7 +19,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
           {arrCounter.findIndex((item) => item.id === widget.id) !== 0 && (
             <Button
               title="Push widget up"
-              title_x="right"
+              title_x="r"
               onClick={() => {
                 const idx = arrCounter.findIndex((item) => item.id === widget.id)
                 if (idx > 0) {
@@ -32,7 +32,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
           {arrCounter.findIndex((item) => item.id === widget.id) !== arrCounter.length - 1 && (
             <Button
               title="Push widget down"
-              title_x="right"
+              title_x="r"
               onClick={() => {
                 const idx = arrCounter.findIndex((item) => item.id === widget.id)
                 if (idx > -1 && idx < arrCounter.length - 1) {
@@ -44,7 +44,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
           )}
           <Button
             title="Delete widget"
-            title_x="right"
+            title_x="r"
             onClick={() => {
               if (confirm("Deleted widget can't undo, continue?")) {
                 setArrCounter(
@@ -74,7 +74,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="checkbox"
               title="Bold title"
-              title_x="right"
+              title_x="r"
               checked={widget.title_bold}
               disabled={widget.title.length === 0}
               onChange={(e) =>
@@ -87,7 +87,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="checkbox"
               title="Italic title"
-              title_x="right"
+              title_x="r"
               checked={widget.title_italic}
               disabled={widget.title.length === 0}
               onChange={(e) =>
@@ -100,7 +100,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="color"
               title="Color title"
-              title_x="right"
+              title_x="r"
               name="title_color"
               defaultValue={widget.title_color}
               disabled={widget.title.length === 0}
@@ -125,7 +125,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="checkbox"
               title="Bold description"
-              title_x="right"
+              title_x="r"
               checked={widget.description_bold}
               disabled={widget.description.length === 0}
               onChange={(e) =>
@@ -140,7 +140,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="checkbox"
               title="Italic description"
-              title_x="right"
+              title_x="r"
               checked={widget.description_italic}
               disabled={widget.description.length === 0}
               onChange={(e) =>
@@ -156,7 +156,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               type="color"
               name="description_color"
               title="Color description"
-              title_x="right"
+              title_x="r"
               defaultValue={widget.description_color}
               disabled={widget.description.length === 0}
               onBlur={(e) =>
@@ -170,6 +170,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
           </div>
           <div>
             <Field
+              tabIndex={-1}
               label="Text size"
               type="text"
               placeholder="M"
@@ -222,7 +223,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 title={(widget.dark_mode ? 'Light' : 'Dark') + ' color scheme'}
-                title_x="right"
+                title_x="r"
                 checked={widget.dark_mode}
                 disabled={widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0}
                 onChange={(e) => {
@@ -267,7 +268,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 type="color"
                 name="background_color"
                 title="Background color"
-                title_x="right"
+                title_x="r"
                 defaultValue={widget.background_color}
                 disabled={widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0}
                 onBlur={(e) =>
@@ -280,8 +281,9 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               />
             </div>
           </div>
-          <div>
+          <div data-line="t" data-line-t-title="Columns">
             <Field
+              tabIndex={-1}
               label="Column"
               type="number"
               placeholder="0"
@@ -395,7 +397,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="checkbox"
               title="Align top column"
-              title_x="right"
+              title_x="r"
               checked={widget.columns_align_top}
               disabled={widget.columns.length === 0}
               onChange={(e) =>
@@ -479,7 +481,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 title="Bordered column"
-                title_x="right"
+                title_x="r"
                 checked={widget.icon_boxed_border}
                 disabled={widget.columns.length === 0}
                 onChange={(e) =>
@@ -495,7 +497,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 type="color"
                 name="icon_boxed_border_color"
                 title="Border color column"
-                title_x="right"
+                title_x="r"
                 defaultValue={widget.icon_boxed_border_color}
                 disabled={widget.columns.length === 0 || !widget.icon_boxed_border}
                 onBlur={(e) =>
@@ -508,12 +510,12 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               />
             </div>
           </div>
-          <div>
+          <div data-line="t" data-line-t-title="Icons">
             <Field
               label="Icon"
               type="checkbox"
-              title={(widget.icon ? 'Disable' : 'Enable') + ' icon'}
-              title_y="top"
+              title={(widget.icon ? 'Without' : 'With') + ' icon'}
+              title_y="t"
               checked={widget.icon}
               disabled={widget.columns.length === 0}
               onChange={(e) =>
@@ -526,7 +528,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 title="Number as icon"
-                title_y="top"
+                title_y="t"
                 checked={widget.icon_order}
                 disabled={widget.columns.length === 0 || !widget.icon}
                 onChange={(e) =>
@@ -540,7 +542,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 type="color"
                 name="icon_order_color"
                 title="Number color"
-                title_y="top"
+                title_y="t"
                 defaultValue={widget.icon_order_color}
                 disabled={widget.columns.length === 0 || !widget.icon || !widget.icon_order}
                 onBlur={(e) =>
@@ -556,7 +558,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 title="Circled icon"
-                title_y="top"
+                title_y="t"
                 checked={widget.icon_circled}
                 disabled={widget.columns.length === 0 || !widget.icon}
                 onChange={(e) =>
@@ -570,8 +572,8 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 type="color"
                 name="icon_circled_color"
                 title="Circle color icon"
-                title_x="right"
-                title_y="top"
+                title_x="r"
+                title_y="t"
                 defaultValue={widget.icon_circled_color}
                 disabled={widget.columns.length === 0 || !widget.icon || !widget.icon_circled}
                 onBlur={(e) =>
@@ -585,8 +587,8 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Field
                 type="checkbox"
                 title="Bordered icon"
-                title_x="right"
-                title_y="top"
+                title_x="r"
+                title_y="t"
                 checked={widget.icon_circled_border}
                 disabled={widget.columns.length === 0 || !widget.icon}
                 onChange={(e) =>
@@ -602,8 +604,8 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 type="color"
                 name="icon_circled_border_color"
                 title="Border color icon"
-                title_x="right"
-                title_y="top"
+                title_x="r"
+                title_y="t"
                 defaultValue={widget.icon_circled_border_color}
                 disabled={widget.columns.length === 0 || !widget.icon || !widget.icon_circled_border}
                 onBlur={(e) =>
@@ -618,8 +620,8 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
             <Field
               type="checkbox"
               title="Line break icon"
-              title_x="right"
-              title_y="top"
+              title_x="r"
+              title_y="t"
               checked={widget.columns_break}
               disabled={widget.columns.length === 0 || !widget.icon}
               onChange={(e) =>
@@ -660,8 +662,8 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 <Field
                   type="checkbox"
                   title="Align top item"
-                  title_x="right"
-                  title_y="top"
+                  title_x="r"
+                  title_y="t"
                   checked={item.columns_align_top}
                   disabled={!widget.icon || widget.columns_break}
                   onChange={(e) =>
@@ -687,7 +689,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   type="select"
                   selectOption={objIconSocial}
                   title="Select icon"
-                  title_y="top"
+                  title_y="t"
                   value={item.icon}
                   disabled={!widget.icon || widget.icon_order}
                   required={true}

@@ -17,6 +17,7 @@ function Field({
   required,
   onBlur,
   onChange,
+  tabIndex,
   children,
 }) {
   const attr = {
@@ -25,6 +26,7 @@ function Field({
     onChange: onChange,
     defaultValue: defaultValue,
     value: value,
+    tabIndex: tabIndex,
     disabled: disabled,
     required: required,
   }

@@ -291,6 +291,7 @@ function Letter({arrCounter}) {
                             <React.Fragment key={item2.id}>
                               {item2.url ? (
                                 <a
+                                  tabIndex={-1}
                                   href={item2.url}
                                   style={{
                                     backgroundColor: item1.icon_boxed ? item1.icon_boxed_color : 'transparent',

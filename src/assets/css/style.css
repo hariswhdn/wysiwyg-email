@@ -120,6 +120,7 @@ textarea {
     min-height: 30px;
   }
   &:is([type='color']) {
+    background-color: #e6f4fe;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -204,11 +205,11 @@ textarea {
 }
 
 input[type='color']:disabled::-webkit-color-swatch {
-  display: none;
+  filter: grayscale(1);
 }
 
 input[type='color']:disabled::-moz-color-swatch {
-  display: none;
+  filter: grayscale(1);
 }
 
 label {
@@ -236,7 +237,7 @@ label {
         top: 50%;
         left: 50%;
         translate: -50% -50%;
-        z-index: 1;
+        z-index: 9999;
       }
     }
     /* &:hover > [type='checkbox'] {
@@ -292,12 +293,16 @@ button[data-title]:hover::after {
   padding: 2px 6px;
   position: absolute;
   left: 0;
-  z-index: 99;
+  z-index: 99999;
   color: #5b5b5b;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   text-align: left;
   white-space: nowrap;
+}
+label[data-title]:has(> :disabled):hover::after,
+button[data-title]:disabled:hover::after {
+  content: '(Disabled) ' attr(data-title);
 }
 label[data-title]:hover::after {
   top: calc(100% + 1px);
@@ -305,20 +310,20 @@ label[data-title]:hover::after {
 button[data-title]:hover::after {
   top: calc(100% + 2px);
 }
-label[data-title-x='right']:hover::after,
-button[data-title-x='right']:hover::after {
+label[data-title-x='r']:hover::after,
+button[data-title-x='r']:hover::after {
   left: unset;
   right: 0;
   text-align: right;
 }
-label[data-title-y='top']:hover::after,
-button[data-title-y='top']:hover::after {
+label[data-title-y='t']:hover::after,
+button[data-title-y='t']:hover::after {
   top: unset;
 }
-label[data-title-y='top']:hover::after {
+label[data-title-y='t']:hover::after {
   bottom: calc(100% + 1px);
 }
-button[data-title-y='top']:hover::after {
+button[data-title-y='t']:hover::after {
   bottom: calc(100% + 2px);
 }
 
@@ -363,7 +368,7 @@ fieldset {
     border-bottom-left-radius: 0;
   }
   & > label > [type='checkbox']:after {
-    z-index: 1;
+    z-index: 9999;
   }
   &:has(> label > textarea) {
     align-items: flex-start;
@@ -445,4 +450,33 @@ fieldset {
 .widget_columns > div > label:not(:last-child) > textarea {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+.fieldset_lb_t {
+  padding-top: 8px;
+  border-top: 1px solid #d9d9d9;
+}
+
+/* data-line="t" data-line-t-title="Columns" */
+[data-line='t'] {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid #d9d9d9;
+}
+[data-line-t-title] {
+  position: relative;
+}
+[data-line-t-title]::after {
+  content: attr(data-line-t-title);
+  background-color: #fff;
+  padding-right: 4px;
+  position: absolute;
+  top: -8px;
+  left: 0;
+  color: #646464;
+}
+*:focus {
+  outline: 1px solid #5eb1ef;
+  outline-offset: 0;
+  z-index: 999;
 }
