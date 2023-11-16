@@ -3,30 +3,33 @@ function Field({
   type,
   name,
   placeholder,
+  selectOption,
+  title,
+  title_x,
+  title_y,
+  min,
+  max,
   defaultValue,
   value,
   checked,
-  onChange,
-  onBlur,
-  min,
-  max,
   rows = 1,
   disabled,
   required,
-  selectOption,
+  onBlur,
+  onChange,
   children,
 }) {
   const attr = {
     name: name,
-    onChange: onChange,
     onBlur: onBlur,
+    onChange: onChange,
     defaultValue: defaultValue,
     value: value,
     disabled: disabled,
     required: required,
   }
   return (
-    <label>
+    <label data-title={title} data-title-x={title_x} data-title-y={title_y}>
       {label && <p>{label}</p>}
       {type === 'select' ? (
         <select {...attr}>

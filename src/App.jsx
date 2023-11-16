@@ -30,7 +30,7 @@ function App() {
         <Letter arrCounter={arrCounter} />
         <aside>
           <div>
-            <Button onClick={() => addWidget('grid_center')}>
+            <Button title="Add widget" onClick={() => addWidget('grid_center')}>
               <Icon icon="add" />
             </Button>
           </div>

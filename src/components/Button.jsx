@@ -1,6 +1,12 @@
-function Button({type = "button", onClick, disabled, children}) {
+function Button({type = 'button', title, title_x, title_y, onClick, disabled, children}) {
   return (
-    <button type={type} onClick={onClick} disabled={disabled}>
+    <button
+      type={type}
+      data-title={title}
+      data-title-x={title_x}
+      data-title-y={title_y}
+      onClick={onClick}
+      disabled={disabled}>
       {children}
     </button>
   )
