@@ -6,6 +6,20 @@ import Field from './Field'
 function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
   const [expanded, setExpanded] = useState(true)
 
+  function onChangeTextarea(e) {
+    const el_rows = 9
+    const el_padding = 12
+    const el_lineHeight = 16
+    const el_border = 2
+    let el = e.target
+    if ((el.scrollHeight - el_padding) / el_lineHeight <= el_rows) {
+      el.style.height = 'auto'
+      el.style.height = el.scrollHeight + el_border + 'px'
+    } else {
+      el.style.height = el.offsetHeight + 'px'
+    }
+  }
+
   return (
     <form action="?" id={`widget${widget.id}`} className="widget">
       <div className="widget_header">
@@ -13,7 +27,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
           <Button title={(expanded ? 'Collapse' : 'Expand') + ' widget'} onClick={() => setExpanded(!expanded)}>
             <Icon icon={expanded ? 'less' : 'more'} />
           </Button>
-          <p>#form{widget.id}</p>
+          <p>#widget{widget.id}</p>
         </div>
         <div className="field_group">
           {arrCounter.findIndex((item) => item.id === widget.id) !== 0 && (
@@ -60,114 +74,6 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
       </div>
       {expanded && (
         <fieldset className="widget_body">
-          <div className="field_group">
-            <Field
-              type="textarea"
-              placeholder="Title"
-              value={widget.title}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title: e.target.value}))
-                )
-              }
-            />
-            <Field
-              type="checkbox"
-              title="Bold title"
-              title_x="r"
-              checked={widget.title_bold}
-              disabled={widget.title.length === 0}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_bold: e.target.checked}))
-                )
-              }>
-              <Icon icon="bold" />
-            </Field>
-            <Field
-              type="checkbox"
-              title="Italic title"
-              title_x="r"
-              checked={widget.title_italic}
-              disabled={widget.title.length === 0}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_italic: e.target.checked}))
-                )
-              }>
-              <Icon icon="italic" />
-            </Field>
-            <Field
-              type="color"
-              title="Color title"
-              title_x="r"
-              name="title_color"
-              defaultValue={widget.title_color}
-              disabled={widget.title.length === 0}
-              onBlur={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_color: e.target.value}))
-                )
-              }
-            />
-          </div>
-          <div className="field_group">
-            <Field
-              type="textarea"
-              placeholder="Description"
-              value={widget.description}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, description: e.target.value}))
-                )
-              }
-            />
-            <Field
-              type="checkbox"
-              title="Bold description"
-              title_x="r"
-              checked={widget.description_bold}
-              disabled={widget.description.length === 0}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) =>
-                    item.id !== widget.id ? item : {...item, description_bold: e.target.checked}
-                  )
-                )
-              }>
-              <Icon icon="bold" />
-            </Field>
-            <Field
-              type="checkbox"
-              title="Italic description"
-              title_x="r"
-              checked={widget.description_italic}
-              disabled={widget.description.length === 0}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) =>
-                    item.id !== widget.id ? item : {...item, description_italic: e.target.checked}
-                  )
-                )
-              }>
-              <Icon icon="italic" />
-            </Field>
-            <Field
-              type="color"
-              name="description_color"
-              title="Color description"
-              title_x="r"
-              defaultValue={widget.description_color}
-              disabled={widget.description.length === 0}
-              onBlur={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) =>
-                    item.id !== widget.id ? item : {...item, description_color: e.target.value}
-                  )
-                )
-              }
-            />
-          </div>
           <div>
             <Field
               tabIndex={-1}
@@ -281,233 +187,456 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               />
             </div>
           </div>
-          <div data-line="t" data-line-t-title="Columns">
-            <Field
-              tabIndex={-1}
-              label="Column"
-              type="number"
-              placeholder="0"
-              min={0}
-              max={12}
-              value={widget.columns.length}
-              onChange={(e) => {
-                const val = parseInt(e.target.value || '0')
-                if (val !== widget.columns.length && val >= 0 && val <= 12) {
-                  setArrCounter(
-                    arrCounter.map((item) => {
-                      if (item.id === widget.id) {
-                        let willColumns = widget.columns
-                        if (willColumns.length > val) {
-                          willColumns.length = val
-                        } else if (willColumns.length < val) {
-                          const willColumnsLength = willColumns.length
-                          for (let i = 0; i < val - willColumnsLength; i++) {
-                            willColumns.push({
-                              ...objColumn,
-                              id: willColumnsLength + (i + 1),
-                              icon: Object.keys(objIconSocial)[willColumnsLength + i],
-                              text: objIconSocial[Object.keys(objIconSocial)[willColumnsLength + i]],
-                            })
-                          }
-                        }
-                        item = {...item, columns: willColumns}
-                      }
-                      return item
-                    })
-                  )
-                }
-              }}>
-              <Button
-                title="Decrease column"
-                disabled={widget.columns.length === 0}
-                onClick={() => {
-                  if (widget.columns.length > 0) {
-                    setArrCounter(
-                      arrCounter.map((item) => {
-                        if (item.id === widget.id) {
-                          item.columns.length = item.columns.length - 1
-                        }
-                        return item
-                      })
-                    )
-                  }
-                }}>
-                <Icon icon="subtract" />
-              </Button>
-              <Button
-                title="Increase column"
-                disabled={widget.columns.length === 12}
-                onClick={() => {
-                  if (widget.columns.length < 12) {
-                    setArrCounter(
-                      arrCounter.map((item) => {
-                        if (item.id === widget.id) {
-                          item.columns.push({
-                            ...objColumn,
-                            id: item.columns.length + 1,
-                            icon: Object.keys(objIconSocial)[item.columns.length],
-                            text: objIconSocial[Object.keys(objIconSocial)[item.columns.length]],
-                          })
-                        }
-                        return item
-                      })
-                    )
-                  }
-                }}>
-                <Icon icon="add" />
-              </Button>
-            </Field>
-            <div className="field_group">
+          <div data-line="t" data-line-t-title="Spaces">
+            <div>
               <Field
-                type="checkbox"
-                title="Align left column"
-                checked={widget.columns_align_x === 'left'}
-                disabled={widget.columns.length === 0}
-                onChange={() =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id
-                        ? item
-                        : {...item, columns_align_x: item.columns_align_x !== 'left' ? 'left' : 'center'}
+                tabIndex={-1}
+                label="Top"
+                type="text"
+                placeholder="Full"
+                value={arrPadding[widget.idx_padding_top].name}
+                disabled={true}>
+                <Button
+                  title="Decrease top space"
+                  disabled={
+                    widget.idx_padding_top === 0 ||
+                    (widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0)
+                  }
+                  onClick={() =>
+                    widget.idx_padding_top > 0 &&
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id
+                          ? item
+                          : {
+                              ...item,
+                              idx_padding_top: widget.idx_padding_top - 1,
+                            }
+                      )
                     )
-                  )
-                }>
-                <Icon icon="skip_left" />
+                  }>
+                  <Icon icon="subtract" />
+                </Button>
+                <Button
+                  title="Increase top space"
+                  disabled={
+                    widget.idx_padding_top === 6 ||
+                    (widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0)
+                  }
+                  onClick={() =>
+                    widget.idx_padding_top < 6 &&
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id
+                          ? item
+                          : {
+                              ...item,
+                              idx_padding_top: widget.idx_padding_top + 1,
+                            }
+                      )
+                    )
+                  }>
+                  <Icon icon="add" />
+                </Button>
               </Field>
               <Field
-                type="checkbox"
-                title="Align right column"
-                checked={widget.columns_align_x === 'right'}
-                disabled={widget.columns.length === 0}
-                onChange={() =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id
-                        ? item
-                        : {
-                            ...item,
-                            columns_align_x: item.columns_align_x !== 'right' ? 'right' : 'center',
-                          }
+                tabIndex={-1}
+                label="Bottom"
+                type="text"
+                placeholder="Full"
+                value={arrPadding[widget.idx_padding_bottom].name}
+                disabled={true}>
+                <Button
+                  title="Decrease bottom space"
+                  disabled={
+                    widget.idx_padding_bottom === 0 ||
+                    (widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0)
+                  }
+                  onClick={() =>
+                    widget.idx_padding_bottom > 0 &&
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id
+                          ? item
+                          : {
+                              ...item,
+                              idx_padding_bottom: widget.idx_padding_bottom - 1,
+                            }
+                      )
                     )
-                  )
-                }>
-                <Icon icon="skip_right" />
+                  }>
+                  <Icon icon="subtract" />
+                </Button>
+                <Button
+                  title="Increase bottom space"
+                  title_x="r"
+                  disabled={
+                    widget.idx_padding_bottom === 6 ||
+                    (widget.columns.length === 0 && widget.title.length === 0 && widget.description.length === 0)
+                  }
+                  onClick={() =>
+                    widget.idx_padding_bottom < 6 &&
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id
+                          ? item
+                          : {
+                              ...item,
+                              idx_padding_bottom: widget.idx_padding_bottom + 1,
+                            }
+                      )
+                    )
+                  }>
+                  <Icon icon="add" />
+                </Button>
               </Field>
             </div>
+          </div>
+          <div className="field_group">
+            <Field
+              type="textarea"
+              placeholder="Title"
+              value={widget.title}
+              onChange={(e) => {
+                onChangeTextarea(e)
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title: e.target.value}))
+                )
+              }}
+            />
             <Field
               type="checkbox"
-              title="Align top column"
+              title="Bold title"
               title_x="r"
-              checked={widget.columns_align_top}
-              disabled={widget.columns.length === 0}
+              checked={widget.title_bold}
+              disabled={widget.title.length === 0}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_bold: e.target.checked}))
+                )
+              }>
+              <Icon icon="bold" />
+            </Field>
+            <Field
+              type="checkbox"
+              title="Italic title"
+              title_x="r"
+              checked={widget.title_italic}
+              disabled={widget.title.length === 0}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_italic: e.target.checked}))
+                )
+              }>
+              <Icon icon="italic" />
+            </Field>
+            <Field
+              type="color"
+              title="Color title"
+              title_x="r"
+              name="title_color"
+              defaultValue={widget.title_color}
+              disabled={widget.title.length === 0}
+              onBlur={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_color: e.target.value}))
+                )
+              }
+            />
+          </div>
+          <div className="field_group">
+            <Field
+              type="textarea"
+              placeholder="Description"
+              value={widget.description}
+              onChange={(e) => {
+                onChangeTextarea(e)
+                setArrCounter(
+                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, description: e.target.value}))
+                )
+              }}
+            />
+            <Field
+              type="checkbox"
+              title="Bold description"
+              title_x="r"
+              checked={widget.description_bold}
+              disabled={widget.description.length === 0}
               onChange={(e) =>
                 setArrCounter(
                   arrCounter.map((item) =>
-                    item.id !== widget.id ? item : {...item, columns_align_top: e.target.checked}
+                    item.id !== widget.id ? item : {...item, description_bold: e.target.checked}
                   )
                 )
               }>
-              <Icon icon="skip_top" />
+              <Icon icon="bold" />
             </Field>
+            <Field
+              type="checkbox"
+              title="Italic description"
+              title_x="r"
+              checked={widget.description_italic}
+              disabled={widget.description.length === 0}
+              onChange={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) =>
+                    item.id !== widget.id ? item : {...item, description_italic: e.target.checked}
+                  )
+                )
+              }>
+              <Icon icon="italic" />
+            </Field>
+            <Field
+              type="color"
+              name="description_color"
+              title="Color description"
+              title_x="r"
+              defaultValue={widget.description_color}
+              disabled={widget.description.length === 0}
+              onBlur={(e) =>
+                setArrCounter(
+                  arrCounter.map((item) =>
+                    item.id !== widget.id ? item : {...item, description_color: e.target.value}
+                  )
+                )
+              }
+            />
           </div>
-          <div>
-            <div className="field_group">
+          <div data-line="t" data-line-t-title="Columns">
+            <div>
               <Field
-                type="checkbox"
-                title="Bold column"
-                checked={widget.columns_bold}
-                disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) => (item.id !== widget.id ? item : {...item, columns_bold: e.target.checked}))
-                  )
-                }>
-                <Icon icon="bold" />
+                tabIndex={-1}
+                label="Column"
+                type="number"
+                placeholder="0"
+                min={0}
+                max={12}
+                value={widget.columns.length}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value || '0')
+                  if (val !== widget.columns.length && val >= 0 && val <= 12) {
+                    setArrCounter(
+                      arrCounter.map((item) => {
+                        if (item.id === widget.id) {
+                          let willColumns = widget.columns
+                          if (willColumns.length > val) {
+                            willColumns.length = val
+                          } else if (willColumns.length < val) {
+                            const willColumnsLength = willColumns.length
+                            for (let i = 0; i < val - willColumnsLength; i++) {
+                              willColumns.push({
+                                ...objColumn,
+                                id: willColumnsLength + (i + 1),
+                                icon: Object.keys(objIconSocial)[willColumnsLength + i],
+                                text: objIconSocial[Object.keys(objIconSocial)[willColumnsLength + i]],
+                              })
+                            }
+                          }
+                          item = {...item, columns: willColumns}
+                        }
+                        return item
+                      })
+                    )
+                  }
+                }}>
+                <Button
+                  title="Decrease column"
+                  disabled={widget.columns.length === 0}
+                  onClick={() => {
+                    if (widget.columns.length > 0) {
+                      setArrCounter(
+                        arrCounter.map((item) => {
+                          if (item.id === widget.id) {
+                            item.columns.length = item.columns.length - 1
+                          }
+                          return item
+                        })
+                      )
+                    }
+                  }}>
+                  <Icon icon="subtract" />
+                </Button>
+                <Button
+                  title="Increase column"
+                  disabled={widget.columns.length === 12}
+                  onClick={() => {
+                    if (widget.columns.length < 12) {
+                      setArrCounter(
+                        arrCounter.map((item) => {
+                          if (item.id === widget.id) {
+                            item.columns.push({
+                              ...objColumn,
+                              id: item.columns.length + 1,
+                              icon: Object.keys(objIconSocial)[item.columns.length],
+                              text: objIconSocial[Object.keys(objIconSocial)[item.columns.length]],
+                            })
+                          }
+                          return item
+                        })
+                      )
+                    }
+                  }}>
+                  <Icon icon="add" />
+                </Button>
               </Field>
+              <div className="field_group">
+                <Field
+                  type="checkbox"
+                  title="Align left column"
+                  title_x="r"
+                  checked={widget.columns_align_x === 'left'}
+                  disabled={widget.columns.length === 0}
+                  onChange={() =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id
+                          ? item
+                          : {...item, columns_align_x: item.columns_align_x !== 'left' ? 'left' : 'center'}
+                      )
+                    )
+                  }>
+                  <Icon icon="skip_left" />
+                </Field>
+                <Field
+                  type="checkbox"
+                  title="Align right column"
+                  title_x="r"
+                  checked={widget.columns_align_x === 'right'}
+                  disabled={widget.columns.length === 0}
+                  onChange={() =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id
+                          ? item
+                          : {
+                              ...item,
+                              columns_align_x: item.columns_align_x !== 'right' ? 'right' : 'center',
+                            }
+                      )
+                    )
+                  }>
+                  <Icon icon="skip_right" />
+                </Field>
+              </div>
               <Field
                 type="checkbox"
-                title="Italic column"
-                checked={widget.columns_italic}
-                disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
+                title="Align top column"
+                title_x="r"
+                checked={widget.columns_align_top}
+                disabled={widget.columns.length === 0}
                 onChange={(e) =>
                   setArrCounter(
                     arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, columns_italic: e.target.checked}
+                      item.id !== widget.id ? item : {...item, columns_align_top: e.target.checked}
                     )
                   )
                 }>
-                <Icon icon="italic" />
+                <Icon icon="skip_top" />
               </Field>
-              <Field
-                type="color"
-                name="columns_color"
-                title="Color column"
-                defaultValue={widget.columns_color}
-                disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
-                onBlur={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) => (item.id !== widget.id ? item : {...item, columns_color: e.target.value}))
-                  )
-                }
-              />
             </div>
-            <div className="field_group">
-              <Field
-                type="checkbox"
-                title="Boxed column"
-                checked={widget.icon_boxed}
-                disabled={widget.columns.length === 0}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) => (item.id !== widget.id ? item : {...item, icon_boxed: e.target.checked}))
-                  )
-                }>
-                <Icon icon="rectangle" />
-              </Field>
-              <Field
-                type="color"
-                name="icon_boxed_color"
-                title="Box color column"
-                defaultValue={widget.icon_boxed_color}
-                disabled={widget.columns.length === 0 || !widget.icon_boxed}
-                onBlur={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, icon_boxed_color: e.target.value}
+            <div>
+              <div className="field_group">
+                <Field
+                  type="checkbox"
+                  title="Bold column"
+                  checked={widget.columns_bold}
+                  disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
+                  onChange={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id ? item : {...item, columns_bold: e.target.checked}
+                      )
                     )
-                  )
-                }
-              />
-              <Field
-                type="checkbox"
-                title="Bordered column"
-                title_x="r"
-                checked={widget.icon_boxed_border}
-                disabled={widget.columns.length === 0}
-                onChange={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, icon_boxed_border: e.target.checked}
+                  }>
+                  <Icon icon="bold" />
+                </Field>
+                <Field
+                  type="checkbox"
+                  title="Italic column"
+                  checked={widget.columns_italic}
+                  disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
+                  onChange={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id ? item : {...item, columns_italic: e.target.checked}
+                      )
                     )
-                  )
-                }>
-                <Icon icon="rectangle_border" />
-              </Field>
-              <Field
-                type="color"
-                name="icon_boxed_border_color"
-                title="Border color column"
-                title_x="r"
-                defaultValue={widget.icon_boxed_border_color}
-                disabled={widget.columns.length === 0 || !widget.icon_boxed_border}
-                onBlur={(e) =>
-                  setArrCounter(
-                    arrCounter.map((item) =>
-                      item.id !== widget.id ? item : {...item, icon_boxed_border_color: e.target.value}
+                  }>
+                  <Icon icon="italic" />
+                </Field>
+                <Field
+                  type="color"
+                  name="columns_color"
+                  title="Color column"
+                  defaultValue={widget.columns_color}
+                  disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
+                  onBlur={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id ? item : {...item, columns_color: e.target.value}
+                      )
                     )
-                  )
-                }
-              />
+                  }
+                />
+              </div>
+              <div className="field_group">
+                <Field
+                  type="checkbox"
+                  title="Boxed column"
+                  checked={widget.icon_boxed}
+                  disabled={widget.columns.length === 0}
+                  onChange={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) => (item.id !== widget.id ? item : {...item, icon_boxed: e.target.checked}))
+                    )
+                  }>
+                  <Icon icon="rectangle" />
+                </Field>
+                <Field
+                  type="color"
+                  name="icon_boxed_color"
+                  title="Box color column"
+                  defaultValue={widget.icon_boxed_color}
+                  disabled={widget.columns.length === 0 || !widget.icon_boxed}
+                  onBlur={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id ? item : {...item, icon_boxed_color: e.target.value}
+                      )
+                    )
+                  }
+                />
+                <Field
+                  type="checkbox"
+                  title="Bordered column"
+                  title_x="r"
+                  checked={widget.icon_boxed_border}
+                  disabled={widget.columns.length === 0}
+                  onChange={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id ? item : {...item, icon_boxed_border: e.target.checked}
+                      )
+                    )
+                  }>
+                  <Icon icon="rectangle_border" />
+                </Field>
+                <Field
+                  type="color"
+                  name="icon_boxed_border_color"
+                  title="Border color column"
+                  title_x="r"
+                  defaultValue={widget.icon_boxed_border_color}
+                  disabled={widget.columns.length === 0 || !widget.icon_boxed_border}
+                  onBlur={(e) =>
+                    setArrCounter(
+                      arrCounter.map((item) =>
+                        item.id !== widget.id ? item : {...item, icon_boxed_border_color: e.target.value}
+                      )
+                    )
+                  }
+                />
+              </div>
             </div>
           </div>
           <div data-line="t" data-line-t-title="Icons">
@@ -643,7 +772,8 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   type="textarea"
                   placeholder="Text"
                   value={item.text}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    onChangeTextarea(e)
                     setArrCounter(
                       arrCounter.map((item1) => {
                         if (item1.id === widget.id) {
@@ -657,7 +787,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                         return item1
                       })
                     )
-                  }
+                  }}
                 />
                 <Field
                   type="checkbox"
@@ -747,6 +877,16 @@ const arrFontSize = [
   {font_size: 24, line_height: 32, name: 'XXL'},
 ]
 
+const arrPadding = [
+  {fraction: 0, name: '0'},
+  {fraction: 0.25, name: '0.25'},
+  {fraction: 0.5, name: '0.5'},
+  {fraction: 1, name: '1'},
+  {fraction: 1.25, name: '1.25'},
+  {fraction: 1.5, name: '1.5'},
+  {fraction: 2, name: '2'},
+]
+
 const objIconSocial = {
   appstore: 'App Store',
   behance: 'Behance',
@@ -781,4 +921,4 @@ function moveArrItem(arr, idx, type) {
   return arr
 }
 
-export {WidgetGridCenter, arrFontSize, objIconSocial}
+export {WidgetGridCenter, arrFontSize, arrPadding, objIconSocial}

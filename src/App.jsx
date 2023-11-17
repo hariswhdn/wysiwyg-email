@@ -58,6 +58,8 @@ const objWidget = {
   description_bold: false,
   description_italic: false,
   idx_font_size: 1,
+  idx_padding_top: 3,
+  idx_padding_bottom: 3,
   icon: true,
   icon_order: false,
   icon_circled: true,

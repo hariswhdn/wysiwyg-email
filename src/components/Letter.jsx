@@ -1,5 +1,5 @@
 import React from 'react'
-import {arrFontSize} from './Widget'
+import {arrFontSize, arrPadding} from './Widget'
 import DOMPurify from 'dompurify'
 
 function Letter({arrCounter}) {
@@ -68,9 +68,11 @@ function Letter({arrCounter}) {
                 backgroundColor: item1.background_color,
                 padding:
                   item1.title.length > 0 || item1.description.length > 0 || item1.columns.length > 0
-                    ? arrFontSize[item1.idx_font_size + 1].line_height +
+                    ? arrFontSize[item1.idx_font_size + 1].line_height * arrPadding[item1.idx_padding_top].fraction +
                       'px ' +
                       arrFontSize[item1.idx_font_size + 1].font_size +
+                      'px ' +
+                      arrFontSize[item1.idx_font_size + 1].line_height * arrPadding[item1.idx_padding_bottom].fraction +
                       'px'
                     : 0,
                 // padding:

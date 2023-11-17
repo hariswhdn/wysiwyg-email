@@ -47,6 +47,7 @@ main {
     }
   }
   & > aside {
+    background-color: #fbfdff;
     width: 375px;
     min-width: 375px;
     display: flex;
@@ -88,16 +89,19 @@ button {
   justify-content: center;
   border: 1px solid #acd8fc;
   border-radius: 4px;
-  &[data-title] {
-    position: relative;
-  }
   & > svg {
     width: auto;
     height: 16px;
   }
+  &[data-title] {
+    position: relative;
+  }
   &:disabled {
     background-color: rgba(0, 0, 0, 0.05);
     border-color: #d9d9d9;
+    &:has(svg) > svg {
+      filter: grayscale(1);
+    }
   }
   &:not(:disabled) {
     /* & > svg {
@@ -112,13 +116,10 @@ button {
 input,
 select,
 textarea {
-  background-color: #fff;
+  background-color: #fbfdff;
   padding: 6px 10px;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
-  &:is(textarea) {
-    min-height: 30px;
-  }
   &:is([type='color']) {
     background-color: #e6f4fe;
     -webkit-appearance: none;
@@ -149,21 +150,15 @@ textarea {
       border-radius: 2px;
     }
   }
-  &:is([type='number']) {
-    appearance: textfield;
-    -moz-appearance: textfield;
-    &::-webkit-outer-spin-button,
-    &::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-  }
   &:is([type='checkbox']) {
     appearance: none;
     width: 24px;
     height: 24px;
     padding: 0;
     position: relative;
+    &:not(:disabled) {
+      cursor: pointer;
+    }
     &:checked {
       &::after {
         content: '✔';
@@ -176,6 +171,7 @@ textarea {
         position: absolute;
         top: -1px;
         left: -1px;
+        color: #5eb1ef;
         border: 1px solid #acd8fc;
         border-radius: 4px;
       }
@@ -184,6 +180,7 @@ textarea {
         &:hover::after {
           background-color: rgba(0, 0, 0, 0.05);
           border-color: #d9d9d9;
+          filter: grayscale(1);
         }
       }
       &:not(:disabled) {
@@ -194,6 +191,25 @@ textarea {
           background-color: #d5efff;
         }
       }
+    }
+  }
+  &:is([type='number']) {
+    appearance: textfield;
+    -moz-appearance: textfield;
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+  &:is(textarea) {
+    min-height: 30px;
+    padding-right: 0;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      width: 10px;
     }
   }
   &:disabled {
@@ -237,7 +253,7 @@ label {
         top: 50%;
         left: 50%;
         translate: -50% -50%;
-        z-index: 9999;
+        z-index: 1;
       }
     }
     /* &:hover > [type='checkbox'] {
@@ -247,11 +263,11 @@ label {
   &:not(:has(> [type='checkbox'])) {
     flex-direction: column;
   }
+  &:has(> [type='checkbox']:disabled):has(> svg) > svg {
+    filter: grayscale(1);
+  }
   &:has(> [type='checkbox']:not(:disabled)) {
     cursor: pointer;
-    & > [type='checkbox'] {
-      cursor: pointer;
-    }
     &:hover > [type='checkbox'] {
       background-color: #d5efff;
       border-color: #acd8fc;
@@ -261,7 +277,7 @@ label {
     fill: #fff;
   } */
   &:has(> .field_group) {
-    flex-direction: row !important;
+    flex-direction: row;
     align-items: center;
     & > p {
       order: 1;
@@ -280,10 +296,39 @@ label {
       margin-left: calc(-96px + -8px);
       justify-content: space-between;
       & > button:not(:first-child) {
-        border-left-width: 1px !important;
+        border-left-width: 1px;
       }
     }
   }
+}
+
+[data-line='t'] {
+  margin-top: 4px;
+  padding: 12px 8px 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+}
+
+[data-line-t-title] {
+  position: relative;
+  &:has(div:not(.field_group)) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+  }
+}
+
+[data-line-t-title]::after {
+  content: attr(data-line-t-title);
+  background-color: #fbfdff;
+  padding: 0 4px;
+  position: absolute;
+  top: -6px;
+  left: 6px;
+  color: #646464;
+  font-size: 10px;
+  line-height: 12px;
+  text-transform: uppercase;
 }
 
 label[data-title]:hover::after,
@@ -293,53 +338,45 @@ button[data-title]:hover::after {
   padding: 2px 6px;
   position: absolute;
   left: 0;
-  z-index: 99999;
+  z-index: 2;
   color: #5b5b5b;
   border: 1px solid #d9d9d9;
   border-radius: 4px;
   text-align: left;
   white-space: nowrap;
 }
+
 label[data-title]:has(> :disabled):hover::after,
 button[data-title]:disabled:hover::after {
   content: '(Disabled) ' attr(data-title);
 }
+
 label[data-title]:hover::after {
   top: calc(100% + 1px);
 }
+
 button[data-title]:hover::after {
   top: calc(100% + 2px);
 }
+
 label[data-title-x='r']:hover::after,
 button[data-title-x='r']:hover::after {
   left: unset;
   right: 0;
   text-align: right;
 }
+
 label[data-title-y='t']:hover::after,
 button[data-title-y='t']:hover::after {
   top: unset;
 }
+
 label[data-title-y='t']:hover::after {
   bottom: calc(100% + 1px);
 }
+
 button[data-title-y='t']:hover::after {
   bottom: calc(100% + 2px);
-}
-
-fieldset {
-  display: flex;
-  flex-direction: column;
-  & div:not(.field_group) {
-    display: flex;
-    column-gap: 12px;
-    & > label:has(> [type='checkbox']) {
-      min-height: 30px;
-    }
-    & > label:not(:has(> [type='checkbox'])):not(:has(.field_group)):first-child {
-      flex-grow: 1;
-    }
-  }
 }
 
 .field_group {
@@ -368,13 +405,28 @@ fieldset {
     border-bottom-left-radius: 0;
   }
   & > label > [type='checkbox']:after {
-    z-index: 9999;
+    z-index: 1;
   }
   &:has(> label > textarea) {
     align-items: flex-start;
+    & > label:has(> textarea) {
+      width: 100%;
+    }
   }
-  &:has(> label > textarea) > label:has(> textarea) {
-    width: 100%;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  & div:not(.field_group) {
+    display: flex;
+    column-gap: 12px;
+    & > label:has(> [type='checkbox']) {
+      min-height: 30px;
+    }
+    & > label:not(:has(> [type='checkbox'])):not(:has(.field_group)):first-child {
+      flex-grow: 1;
+    }
   }
 }
 
@@ -452,31 +504,8 @@ fieldset {
   border-bottom-right-radius: 0;
 }
 
-.fieldset_lb_t {
-  padding-top: 8px;
-  border-top: 1px solid #d9d9d9;
-}
-
-/* data-line="t" data-line-t-title="Columns" */
-[data-line='t'] {
-  margin-top: 8px;
-  padding-top: 12px;
-  border-top: 1px solid #d9d9d9;
-}
-[data-line-t-title] {
-  position: relative;
-}
-[data-line-t-title]::after {
-  content: attr(data-line-t-title);
-  background-color: #fff;
-  padding-right: 4px;
-  position: absolute;
-  top: -8px;
-  left: 0;
-  color: #646464;
-}
 *:focus {
   outline: 1px solid #5eb1ef;
   outline-offset: 0;
-  z-index: 999;
+  z-index: 1;
 }
