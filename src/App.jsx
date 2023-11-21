@@ -13,26 +13,44 @@ function App() {
   }, [arrCounter])
 
   function addWidget() {
-    if (arrCounter.length < 12) {
+    if (arrCounter.length < 9) {
       const willCounter = counter + 1
       setCounter(willCounter)
       setArrCounter([{...JSON.parse(JSON.stringify(objWidget)), id: willCounter}, ...arrCounter])
     }
   }
 
+  async function copyCode() {
+    try {
+      await navigator.clipboard.writeText(document.querySelector('main > div').outerHTML)
+      const el = document.getElementById('copy')
+      el.nextElementSibling.innerHTML = 'Copied'
+      setTimeout(function () {
+        el.nextElementSibling.innerHTML = 'Copy'
+      }, 1250)
+    } catch (err) {
+      alert('Failed to copy: ', err)
+    }
+  }
+
   return (
     <>
-      {/* <header>
-        <h1>Lorem ipsum</h1>
-        <h2>Lorem ipsum dolor sit amet</h2>
-      </header> */}
       <main>
         <Letter arrCounter={arrCounter} />
         <aside>
           <div>
-            <Button title="Add widget" onClick={() => addWidget('grid_center')}>
-              <Icon icon="add" />
-            </Button>
+            <div>
+              <Button onClick={() => addWidget('grid_center')}>
+                <Icon icon="add" />
+              </Button>
+              <p>Add widget</p>
+            </div>
+            <div>
+              <Button id="copy" disabled={arrCounter.length === 0} onClick={copyCode}>
+                <Icon icon="code" />
+              </Button>
+              <p>Copy</p>
+            </div>
           </div>
           {arrCounter.map((item) =>
             item.type === 'grid_center' ? (
@@ -43,7 +61,11 @@ function App() {
           )}
         </aside>
       </main>
-      {/* <footer>Made with ❤️ by Haris Wahidin</footer> */}
+      <footer>
+        <h1>Email WYSIWYG</h1>
+        <h2>Marketing tools</h2>
+        <h3>by Haris Wahidin</h3>
+      </footer>
     </>
   )
 }
@@ -53,10 +75,8 @@ const objWidget = {
   type: 'grid_center',
   title: '',
   title_bold: false,
-  title_italic: false,
   description: '',
   description_bold: false,
-  description_italic: false,
   idx_font_size: 1,
   idx_padding_top: 3,
   idx_padding_bottom: 3,
@@ -68,7 +88,6 @@ const objWidget = {
   icon_boxed_border: false,
   columns: [],
   columns_bold: false,
-  columns_italic: false,
   columns_align_top: false,
   columns_align_x: 'center',
   columns_break: false,

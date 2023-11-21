@@ -318,19 +318,6 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Icon icon="bold" />
             </Field>
             <Field
-              type="checkbox"
-              title="Italic title"
-              title_x="r"
-              checked={widget.title_italic}
-              disabled={widget.title.length === 0}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, title_italic: e.target.checked}))
-                )
-              }>
-              <Icon icon="italic" />
-            </Field>
-            <Field
               type="color"
               title="Color title"
               title_x="r"
@@ -372,21 +359,6 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               <Icon icon="bold" />
             </Field>
             <Field
-              type="checkbox"
-              title="Italic description"
-              title_x="r"
-              checked={widget.description_italic}
-              disabled={widget.description.length === 0}
-              onChange={(e) =>
-                setArrCounter(
-                  arrCounter.map((item) =>
-                    item.id !== widget.id ? item : {...item, description_italic: e.target.checked}
-                  )
-                )
-              }>
-              <Icon icon="italic" />
-            </Field>
-            <Field
               type="color"
               name="description_color"
               title="Color description"
@@ -410,11 +382,11 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 type="number"
                 placeholder="0"
                 min={0}
-                max={12}
+                max={9}
                 value={widget.columns.length}
                 onChange={(e) => {
                   const val = parseInt(e.target.value || '0')
-                  if (val !== widget.columns.length && val >= 0 && val <= 12) {
+                  if (val !== widget.columns.length && val >= 0 && val <= 9) {
                     setArrCounter(
                       arrCounter.map((item) => {
                         if (item.id === widget.id) {
@@ -458,15 +430,21 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 </Button>
                 <Button
                   title="Increase column"
-                  disabled={widget.columns.length === 12}
+                  disabled={widget.columns.length === 9}
                   onClick={() => {
-                    if (widget.columns.length < 12) {
+                    if (widget.columns.length < 9) {
                       setArrCounter(
                         arrCounter.map((item) => {
                           if (item.id === widget.id) {
+                            let willId = item.columns.length + 1
+                            for (let i = 0; i < 9; i++) {
+                              if (item.columns.findIndex((x) => x.id === i + 1) === -1) {
+                                willId = i + 1
+                              }
+                            }
                             item.columns.push({
                               ...objColumn,
-                              id: item.columns.length + 1,
+                              id: willId,
                               icon: Object.keys(objIconSocial)[item.columns.length],
                               text: objIconSocial[Object.keys(objIconSocial)[item.columns.length]],
                             })
@@ -549,20 +527,6 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                     )
                   }>
                   <Icon icon="bold" />
-                </Field>
-                <Field
-                  type="checkbox"
-                  title="Italic column"
-                  checked={widget.columns_italic}
-                  disabled={widget.columns.length === 0 || widget.columns.every((item) => item.text.length === 0)}
-                  onChange={(e) =>
-                    setArrCounter(
-                      arrCounter.map((item) =>
-                        item.id !== widget.id ? item : {...item, columns_italic: e.target.checked}
-                      )
-                    )
-                  }>
-                  <Icon icon="italic" />
                 </Field>
                 <Field
                   type="color"
@@ -813,6 +777,31 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   }>
                   <Icon icon="skip_top" />
                 </Field>
+                <Button
+                  title="Delete column"
+                  title_x="r"
+                  title_y="t"
+                  onClick={() => {
+                    setArrCounter(
+                      arrCounter.map((item1) => {
+                        if (item1.id === widget.id) {
+                          let idx = -1
+                          item1.columns.map((item2, index) => {
+                            if (item2.id === item.id) {
+                              idx = index
+                            }
+                            return item2
+                          })
+                          if (idx > -1) {
+                            item1.columns.splice(idx, 1)
+                          }
+                        }
+                        return item1
+                      })
+                    )
+                  }}>
+                  <Icon icon="delete" />
+                </Button>
               </div>
               <div className="field_group">
                 <Field

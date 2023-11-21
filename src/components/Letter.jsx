@@ -75,20 +75,6 @@ function Letter({arrCounter}) {
                       arrFontSize[item1.idx_font_size + 1].line_height * arrPadding[item1.idx_padding_bottom].fraction +
                       'px'
                     : 0,
-                // padding:
-                //   (item1.title.length > 0 || item1.description.length > 0) && item1.columns.length > 0
-                //     ? '20px 16px 18px'
-                //     : (item1.title.length > 0 || item1.description.length > 0) && item1.columns.length === 0
-                //     ? '20px 16px'
-                //     : item1.title.length === 0 &&
-                //       item1.description.length === 0 &&
-                //       item1.columns.length > 0 ** item1.icon
-                //     ? '20px 16px'
-                //     : item1.title.length === 0 && item1.description.length === 0 && item1.columns.length === 0
-                //     ? '24px 16px 18px'
-                //     : item1.title.length === 0 && item1.description.length === 0 && item1.columns.length === 0
-                //     ? 0
-                //     : styleTableWrap.padding,
               }}>
               {item1.title && (
                 <p
@@ -101,7 +87,6 @@ function Letter({arrCounter}) {
                     fontSize: arrFontSize[item1.idx_font_size + 1].font_size,
                     lineHeight: arrFontSize[item1.idx_font_size + 1].line_height + 'px',
                     fontWeight: item1.title_bold ? 700 : 400,
-                    fontStyle: item1.title_italic ? 'italic' : 'normal',
                   }}
                   dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(item1.title.replace(/\n/g, '<br />'))}}></p>
               )}
@@ -116,7 +101,6 @@ function Letter({arrCounter}) {
                       arrFontSize[item1.idx_font_size > 0 ? item1.idx_font_size - 1 : item1.idx_font_size].line_height +
                       'px',
                     fontWeight: item1.description_bold ? 700 : 400,
-                    fontStyle: item1.description_italic ? 'italic' : 'normal',
                   }}
                   dangerouslySetInnerHTML={{
                     __html: DOMPurify.sanitize(item1.description.replace(/\n/g, '<br />')),
@@ -132,7 +116,6 @@ function Letter({arrCounter}) {
                       ? arrFontSize[item1.idx_font_size].font_size + 'px'
                       : '',
                   fontWeight: item1.columns_bold ? 700 : 400,
-                  fontStyle: item1.columns_italic ? 'italic' : 'normal',
                 }}>
                 <tbody style={styleTbody}>
                   <tr style={styleTr}>
@@ -155,6 +138,7 @@ function Letter({arrCounter}) {
                                 <p
                                   style={{
                                     width: arrFontSize[item1.idx_font_size].line_height,
+                                    height: arrFontSize[item1.idx_font_size].line_height,
                                     margin: 0,
                                     display: 'inline-block',
                                     color: item1.icon_order_color,
@@ -196,14 +180,6 @@ function Letter({arrCounter}) {
                                 {item1.icon_order ? (
                                   <IconOrder />
                                 ) : (
-                                  // <Icon
-                                  //   icon={item2.icon}
-                                  //   size={arrFontSize[item1.idx_font_size].line_height}
-                                  //   color="#fff"
-                                  //   style={{
-                                  //     display: 'inline-block',
-                                  //   }}
-                                  // />
                                   <img
                                     src={
                                       window.location.origin +
@@ -222,19 +198,7 @@ function Letter({arrCounter}) {
                                   />
                                 )}
                               </div>
-                            ) : // <Icon
-                            //   icon={item2.icon}
-                            //   size={
-                            //     arrFontSize[item1.idx_font_size].line_height +
-                            //     arrFontSize[item1.idx_font_size].line_height / 4
-                            //   }
-                            //   style={{
-                            //     margin: '0 6px',
-                            //     display: 'inline-block',
-                            //     verticalAlign: item2.columns_align_top ? 'top' : styleTd.verticalAlign,
-                            //   }}
-                            // />
-                            item1.icon_order ? (
+                            ) : item1.icon_order ? (
                               <IconOrder />
                             ) : (
                               <img
