@@ -8,9 +8,9 @@ function App() {
   const [counter, setCounter] = useState(0)
   const [arrCounter, setArrCounter] = useState([])
 
-  useEffect(() => {
-    console.log('arrCounter', arrCounter)
-  }, [arrCounter])
+  // useEffect(() => {
+  //   console.log('arrCounter', arrCounter)
+  // }, [arrCounter])
 
   function addWidget() {
     if (arrCounter.length < 9) {
@@ -95,10 +95,10 @@ const objWidget = {
   background_color: '#FCFCFC',
   title_color: '#202020',
   description_color: '#646464',
-  icon_circled_color: '#F9F9F9',
-  icon_circled_border_color: '#E8E8E8',
-  icon_boxed_color: '#F0F0F0',
-  icon_boxed_border_color: '#E0E0E0',
+  icon_circled_color: '#F0F0F0',
+  icon_circled_border_color: '#E0E0E0',
+  icon_boxed_color: '#F9F9F9',
+  icon_boxed_border_color: '#E8E8E8',
   icon_order_color: '#646464',
   columns_color: '#202020',
 }

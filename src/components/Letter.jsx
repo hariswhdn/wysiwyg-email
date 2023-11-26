@@ -60,7 +60,9 @@ function Letter({arrCounter}) {
     <div style={styleLetter}>
       <div style={styleTableContainer}>
         {arrCounter.map((item1) => {
-          return (
+          return item1.title.length === 0 && item1.description.length === 0 && item1.columns.length === 0 ? (
+            <React.Fragment key={item1.id}></React.Fragment>
+          ) : (
             <div
               key={item1.id}
               style={{

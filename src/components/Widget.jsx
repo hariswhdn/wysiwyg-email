@@ -143,7 +143,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                       background_color: e.target.checked ? '#191919' : '#FCFCFC',
                       icon_boxed_color: e.target.checked ? '#222222' : '#F9F9F9',
                       icon_boxed_border_color: e.target.checked ? '#313131' : '#E8E8E8',
-                      icon_circled_color: e.target.checked ? '#313131' : '#F0F0F0',
+                      icon_circled_color: e.target.checked ? '#2A2A2A' : '#F0F0F0',
                       icon_circled_border_color: e.target.checked ? '#3A3A3A' : '#E0E0E0',
                     }
                     setArrCounter(
