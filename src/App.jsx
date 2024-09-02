@@ -81,6 +81,7 @@ const objWidget = {
   idx_padding_top: 3,
   idx_padding_bottom: 3,
   icon: true,
+  is_article: false,
   icon_order: false,
   icon_circled: true,
   icon_circled_border: true,

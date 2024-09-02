@@ -496,8 +496,10 @@ fieldset {
       }
     }
   }
-  & > .field_group:nth-child(2) {
+  & > .field_group:not(:first-child) {
     margin-top: -1px;
+  }
+  & > .field_group:nth-child(2) {
     & > label {
       &:first-child {
         flex-basis: 37.5%;
@@ -505,6 +507,11 @@ fieldset {
       &:last-child {
         flex-grow: 1;
       }
+    }
+  }
+  & > .field_group:nth-child(3) {
+    & > label {
+      flex-grow: 1;
     }
   }
 }

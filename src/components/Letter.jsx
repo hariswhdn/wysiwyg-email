@@ -132,6 +132,7 @@ function Letter({arrCounter}) {
                       <div
                         style={{
                           display: 'inline-block',
+                          width: '100%',
                         }}>
                         {item1.columns.map((item2, index2) => {
                           function Children() {
@@ -230,29 +231,61 @@ function Letter({arrCounter}) {
                               />
                             )
                           }
-                          function Text() {
+                          function Text({isArticle, isArticleTitle}) {
                             return (
                               <p
                                 style={{
                                   color: item1.columns_color,
                                   margin:
-                                    item1.columns_break &&
-                                    item1.icon &&
-                                    !(item1.icon_order && !item1.icon_circled && !item1.icon_circled_border)
+                                    isArticle && isArticleTitle
+                                      ? '4px 6px 0'
+                                      : isArticle && !isArticleTitle
+                                      ? '4px 6px'
+                                      : item1.columns_break &&
+                                        item1.icon &&
+                                        !(item1.icon_order && !item1.icon_circled && !item1.icon_circled_border)
                                       ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) +
                                         'px ' +
                                         (Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px ') +
                                         '0'
                                       : '0 ' + Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                   display: item1.columns_break ? 'block' : 'inline-block',
-                                  fontSize: arrFontSize[item1.idx_font_size].font_size + 'px',
-                                  lineHeight: arrFontSize[item1.idx_font_size].line_height + 'px',
-                                  textAlign: item1.columns_break ? 'center' : 'left',
+                                  fontSize:
+                                    (isArticle && isArticleTitle
+                                      ? 16
+                                      : isArticle && !isArticleTitle
+                                      ? 12
+                                      : arrFontSize[item1.idx_font_size].font_size) + 'px',
+                                  lineHeight:
+                                    (isArticle && isArticleTitle
+                                      ? 24
+                                      : isArticle && !isArticleTitle
+                                      ? 16
+                                      : arrFontSize[item1.idx_font_size].line_height) + 'px',
+                                  textAlign: item1.columns_break && !item1.is_article ? 'center' : 'left',
                                   verticalAlign: 'middle',
+                                  ...(isArticle && !isArticleTitle
+                                    ? {
+                                        textOverflow: 'ellipsis',
+                                        overflow: 'hidden',
+                                        whiteSpace: 'nowrap',
+                                        width: 'calc(100% - 12px)',
+                                      }
+                                    : {}),
                                 }}
-                                dangerouslySetInnerHTML={{
-                                  __html: DOMPurify.sanitize(item2.text.replace(/\n/g, '<br />')),
-                                }}></p>
+                                dangerouslySetInnerHTML={
+                                  isArticle
+                                    ? null
+                                    : {
+                                        __html: DOMPurify.sanitize(item2.text.replace(/\n/g, '<br />')),
+                                      }
+                                }>
+                                {isArticle && isArticleTitle
+                                  ? item2.text
+                                  : isArticle && !isArticleTitle
+                                  ? item2.snippet
+                                  : null}
+                              </p>
                             )
                           }
                           return (
@@ -269,7 +302,7 @@ function Letter({arrCounter}) {
                                         : 0,
                                     padding: Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px',
                                     display: 'inline-block',
-                                    textAlign: 'center',
+                                    textAlign: item1.is_article ? 'justify' : 'center',
                                     textDecoration: 'none',
                                     border: item1.icon_boxed_border
                                       ? '1px solid ' + item1.icon_boxed_border_color
@@ -278,10 +311,19 @@ function Letter({arrCounter}) {
                                       item1.icon_boxed || item1.icon_boxed_border
                                         ? Math.floor(arrFontSize[item1.idx_font_size + 1].line_height / 4) + 'px'
                                         : 'none',
-                                    verticalAlign: item1.columns_align_top ? 'top' : 'middle',
+                                    verticalAlign: !item1.columns_align_top && !item1.is_article ? 'middle' : 'top',
+                                    width: item1.is_article ? 'calc(50% - 12px)' : 'unset',
                                   }}>
-                                  {item1.icon && <Children />}
-                                  {item2.text && <Text />}
+                                  {item1.icon && !item1.is_article && <Children />}
+                                  {item2.text &&
+                                    (item1.is_article ? (
+                                      <>
+                                        <Text isArticle={true} isArticleTitle={true} />
+                                        {item2.snippet && <Text isArticle={true} isArticleTitle={false} />}
+                                      </>
+                                    ) : (
+                                      <Text />
+                                    ))}
                                 </a>
                               ) : (
                                 <div

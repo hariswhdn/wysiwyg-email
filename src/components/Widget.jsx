@@ -463,7 +463,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   title="Align left column"
                   title_x="r"
                   checked={widget.columns_align_x === 'left'}
-                  disabled={widget.columns.length === 0}
+                  disabled={widget.columns.length === 0 || widget.is_article}
                   onChange={() =>
                     setArrCounter(
                       arrCounter.map((item) =>
@@ -480,7 +480,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   title="Align right column"
                   title_x="r"
                   checked={widget.columns_align_x === 'right'}
-                  disabled={widget.columns.length === 0}
+                  disabled={widget.columns.length === 0 || widget.is_article}
                   onChange={() =>
                     setArrCounter(
                       arrCounter.map((item) =>
@@ -501,7 +501,7 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                 title="Align top column"
                 title_x="r"
                 checked={widget.columns_align_top}
-                disabled={widget.columns.length === 0}
+                disabled={widget.columns.length === 0 || widget.is_article}
                 onChange={(e) =>
                   setArrCounter(
                     arrCounter.map((item) =>
@@ -601,6 +601,22 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   }
                 />
               </div>
+              <Field
+                label="Is Article"
+                type="checkbox"
+                title="Is Article"
+                title_x="r"
+                checked={widget.is_article}
+                disabled={widget.columns.length === 0}
+                onChange={(e) =>
+                  setArrCounter(
+                    arrCounter.map((item) =>
+                      item.id !== widget.id
+                        ? item
+                        : {...item, is_article: e.target.checked, icon: e.target.checked ? false : item.icon}
+                    )
+                  )
+                }></Field>
             </div>
           </div>
           <div data-line="t" data-line-t-title="Icons">
@@ -613,7 +629,11 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
               disabled={widget.columns.length === 0}
               onChange={(e) =>
                 setArrCounter(
-                  arrCounter.map((item) => (item.id !== widget.id ? item : {...item, icon: e.target.checked}))
+                  arrCounter.map((item) =>
+                    item.id !== widget.id
+                      ? item
+                      : {...item, is_article: e.target.checked ? false : item.is_article, icon: e.target.checked}
+                  )
                 )
               }
             />
@@ -803,31 +823,56 @@ function WidgetGridCenter({widget, arrCounter, setArrCounter}) {
                   <Icon icon="delete" />
                 </Button>
               </div>
+              {widget.is_article && (
+                <div className="field_group">
+                  <Field
+                    placeholder="Snippet"
+                    value={item.snippet}
+                    onChange={(e) =>
+                      setArrCounter(
+                        arrCounter.map((item1) => {
+                          if (item1.id === widget.id) {
+                            item1.columns.map((item2) => {
+                              if (item2.id === item.id) {
+                                item2.snippet = e.target.value
+                              }
+                              return item2
+                            })
+                          }
+                          return item1
+                        })
+                      )
+                    }
+                  />
+                </div>
+              )}
               <div className="field_group">
-                <Field
-                  type="select"
-                  selectOption={objIconSocial}
-                  title="Select icon"
-                  title_y="t"
-                  value={item.icon}
-                  disabled={!widget.icon || widget.icon_order}
-                  required={true}
-                  onChange={(e) =>
-                    setArrCounter(
-                      arrCounter.map((item1) => {
-                        if (item1.id === widget.id) {
-                          item1.columns.map((item2) => {
-                            if (item2.id === item.id) {
-                              item2.icon = e.target.value
-                            }
-                            return item2
-                          })
-                        }
-                        return item1
-                      })
-                    )
-                  }
-                />
+                {!widget.is_article && (
+                  <Field
+                    type="select"
+                    selectOption={objIconSocial}
+                    title="Select icon"
+                    title_y="t"
+                    value={item.icon}
+                    disabled={!widget.icon || widget.icon_order}
+                    required={true}
+                    onChange={(e) =>
+                      setArrCounter(
+                        arrCounter.map((item1) => {
+                          if (item1.id === widget.id) {
+                            item1.columns.map((item2) => {
+                              if (item2.id === item.id) {
+                                item2.icon = e.target.value
+                              }
+                              return item2
+                            })
+                          }
+                          return item1
+                        })
+                      )
+                    }
+                  />
+                )}
                 <Field
                   type="url"
                   placeholder="URL"
@@ -899,6 +944,7 @@ const objColumn = {
   icon: Object.keys(objIconSocial)[1],
   text: objIconSocial[Object.keys(objIconSocial)[1]],
   url: 'https://localhost',
+  snippet: '',
   columns_align_top: false,
   columns_break: false,
 }
